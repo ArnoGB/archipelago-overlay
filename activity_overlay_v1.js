@@ -78,7 +78,7 @@ $(document).ready(function(){
 
     function login() {
         $("#login").hide();
-        client.login("https://archipelago.gg:"+port, player, "Outer Wilds", {items: 7 /*all*/})
+        client.login("wss://archipelago.gg:"+port, player, "Outer Wilds", {items: 7 /*all*/})
     		.then(() => {
                 log("Connected to the Archipelago server!")
                 client.updateItemsHandling(7); //all
