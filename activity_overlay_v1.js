@@ -12,7 +12,7 @@ var AVATAR_IMG_DEFAULT = "./character/unknown.png";
 
 $(document).ready(function(){
 
-    var client = window.client;
+    var client = new Client();
     var transactionTemplate = $("#transactionTemplate").detach();
 
     let params = new URLSearchParams(document.location.search);
