@@ -1,3 +1,4 @@
+import { Client } from "https://unpkg.com/archipelago.js/dist/archipelago.min.js";
 
 var ITEM_COLOR = { progression: "300deg", useful: "150deg", trap: 0, filler: "200deg"}
 var ITEM_TEXT_COLOR = { progression: "#d269ec", useful: "#68e78e", trap: "#ee6969", filler: "#4cd3f5"}
