@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Jersey+10&family=Limelight&family=Outfit:wght@100..900&family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./activity_overlay_v1.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="module">
+            import { Client } from "https://unpkg.com/archipelago.js/dist/archipelago.min.js";
+            window.client = new Client();
+        </script>
+        <script src="./activity_overlay_v1.js"></script>
+    </head>
+    <body>
+        <div id="login">
+            <div>
+                <label>archipelago.gg:</label>
+                <input id="port" placeholder="XXXXX"></input>
+            </div>
+            <div>
+                <label>Player</label>
+                <input id="player" placeholder="Hearthian1"></input>
+            </div>
+            <button id="connect">GO</button>
+        </div>
+        <div id="transactionList">
+            <div id="transactionTemplate" class="flex h-1 transaction">
+                <div id="location" class="text text-location h-1 w-1">LIEU</div>
+                <div id="player1" class="h-1 w-1-5">
+                    <img src="./character/unknown.png" class="h-1">
+                    <div id="name" class="text text-player">JOUEUR 1</div>
+                    <div id="game" class="text text-game">JEU 1</div>
+                </div>
+                <div id="item" class="h-1 w-2">
+                    <div class="text text-pink text-item">OBJET</div>
+                    <img src="./character/arrow.png" class="h-0-75 recolor arrow">
+                </div>
+                <div id="player2">
+                    <img src="./character/unknown.png" class="flip-h h-1">
+                    <div id="name" class="text text-player">JOUEUR 2</div>
+                    <div id="game"class="text text-game">JEU 2</div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
