@@ -39,7 +39,7 @@ $(document).ready(function () {
   function error(message) {
     console.error(message);
     $("#error").show();
-    $("#error").text(message);
+    $("#error").html(message);
   }
 
   $("#error").hide();
@@ -114,21 +114,34 @@ $(document).ready(function () {
     }, 500);
   }
 
-  if (port && player) {
+  if (port) {
+    if (!port.match(/^[0-9]{1,5}$/)) {
+      error(`Not a valid port: '${port}'. Must be like '12345'`);
+      return;
+    }
     login();
   }
 
   $("#connect").on("click", () => {
     $("#error").hide();
     let port = $("#port").val();
-    if (!port.match(/^[0-9]{1,5}$/)) {
+    if (!port || !port.match(/^[0-9]{1,5}$/)) {
       error(`Not a valid port: '${port}'. Must be like '12345'`);
       return;
+    } else {
+      params.set("port", port);
     }
     let player = $("#player").val();
+    /*if (!player) {
+      error(`Player must not be empty`);
+      return;
+    }*/
+    if (player && player.match(/^[A-Za-z0-9 _-]*$/)) {
+      params.set("player", player);
+    } else if (player) {
+      error("Invalid player, avoid special characters");
+    }
     let password = $("#passw").val();
-    params.set("port", port);
-    params.set("player", player);
     if (password) {
       params.set("password", password);
     }
@@ -148,7 +161,9 @@ $(document).ready(function () {
           log("Connected to the Archipelago server (with password)!");
         })
         .catch((err) => {
-          error(err);
+          error(
+            `Could not connect to game archipelago.gg:${port} with player ${player} and password <span style="color: black; background: black; span:hover {color: white}">${password}</span>`,
+          );
         });
     } else {
       client
@@ -157,7 +172,9 @@ $(document).ready(function () {
           log("Connected to the Archipelago server!");
         })
         .catch((err) => {
-          error(err);
+          error(
+            `Could not connect to game archipelago.gg:${port} with player ${player}`,
+          );
         });
     }
   }
