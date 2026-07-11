@@ -36,12 +36,13 @@ $(document).ready(function () {
     console.log("AP message: " + message);
   }
 
-  $("#error").hide();
   function error(message) {
     console.err(message);
     $("#error").show();
     $("#error").text(message);
   }
+
+  $("#error").hide();
 
   function getTransactionElement(
     location,
@@ -133,23 +134,26 @@ $(document).ready(function () {
   function login() {
     $("#error").hide();
     $("#login").hide();
-    try {
-      if (password) {
-        client
-          .login("archipelago.gg:" + port, player, undefined, {
-            password: password,
-          })
-          .then(() => {
-            log("Connected to the Archipelago server (with password)!");
-          });
-      } else {
-        client.login("archipelago.gg:" + port, player).then(() => {
-          log("Connected to the Archipelago server!");
+    if (password) {
+      client
+        .login("archipelago.gg:" + port, player, undefined, {
+          password: password,
+        })
+        .then(() => {
+          log("Connected to the Archipelago server (with password)!");
+        })
+        .catch((err) => {
+          error(err);
         });
-      }
-    } catch (err) {
-      error(err.message);
-      $("#login").show();
+    } else {
+      client
+        .login("archipelago.gg:" + port, player)
+        .then(() => {
+          log("Connected to the Archipelago server!");
+        })
+        .catch((err) => {
+          error(err);
+        });
     }
   }
 
