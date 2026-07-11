@@ -114,9 +114,13 @@ $(document).ready(function () {
     }, 500);
   }
 
-  if (port) {
+  if (port && player) {
     if (!port.match(/^[0-9]{1,5}$/)) {
       error(`Not a valid port: '${port}'. Must be like '12345'`);
+      return;
+    }
+    if (!player.match(/^[A-Za-z0-9 _-]*$/)) {
+      error(`Player must not be empty`);
       return;
     }
     login();
@@ -124,6 +128,7 @@ $(document).ready(function () {
 
   $("#connect").on("click", () => {
     $("#error").hide();
+
     let port = $("#port").val();
     if (!port || !port.match(/^[0-9]{1,5}$/)) {
       error(`Not a valid port: '${port}'. Must be like '12345'`);
@@ -131,21 +136,24 @@ $(document).ready(function () {
     } else {
       params.set("port", port);
     }
+
     let player = $("#player").val();
-    /*if (!player) {
-      error(`Player must not be empty`);
-      return;
-    }*/
     if (player && player.match(/^[A-Za-z0-9 _-]*$/)) {
       params.set("player", player);
     } else if (player) {
       error("Invalid player, avoid special characters");
+      return;
+    } else {
+      error(`Player must not be empty`);
+      return;
     }
+
     let password = $("#passw").val();
     if (password && password.match(/^[^`"'()<>]*$/)) {
       params.set("password", password);
     } else if (player) {
       error("Invalid password, avoid escape characters ()\`\"'<>");
+      return;
     }
     window.location.search = params;
     login();
