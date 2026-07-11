@@ -36,6 +36,13 @@ $(document).ready(function () {
     console.log("AP message: " + message);
   }
 
+  $("#error").hide();
+  function error(message) {
+    console.err(message);
+    $("#error").show();
+    $("#error").text(message);
+  }
+
   function getTransactionElement(
     location,
     player1,
@@ -113,7 +120,7 @@ $(document).ready(function () {
   $("#connect").on("click", () => {
     let port = $("#port").val();
     let player = $("#player").val();
-    let password = $("#password").val();
+    let password = $("#passw").val();
     params.set("port", port);
     params.set("player", player);
     if (password) {
@@ -124,23 +131,29 @@ $(document).ready(function () {
   });
 
   function login() {
+    $("#error").hide();
     $("#login").hide();
-    if (password) {
-      client
-        .login("archipelago.gg:" + port, player, undefined, {
-          password: password,
-        })
-        .then(() => {
-          log("Connected to the Archipelago server (with password)!");
-        })
-        .catch(console.error);
-    } else {
-      client
-        .login("archipelago.gg:" + port, player)
-        .then(() => {
-          log("Connected to the Archipelago server!");
-        })
-        .catch(console.error);
+    try {
+      if (password) {
+        client
+          .login("archipelago.gg:" + port, player, undefined, {
+            password: password,
+          })
+          .then(() => {
+            log("Connected to the Archipelago server (with password)!");
+          })
+          .catch(console.error);
+      } else {
+        client
+          .login("archipelago.gg:" + port, player)
+          .then(() => {
+            log("Connected to the Archipelago server!");
+          })
+          .catch(console.error);
+      }
+    } catch (err) {
+      error(err.message);
+      $("#login").show();
     }
   }
 
