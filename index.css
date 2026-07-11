@@ -6,6 +6,8 @@
 }
 
 body {
+  margin: 40px;
+  max-width: 600px;
 }
 
 .error {
