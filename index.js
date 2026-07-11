@@ -142,8 +142,10 @@ $(document).ready(function () {
       error("Invalid player, avoid special characters");
     }
     let password = $("#passw").val();
-    if (password) {
+    if (password && password.match(/^[^`"'()<>]*$/)) {
       params.set("password", password);
+    } else if (player) {
+      error("Invalid password, avoid escape characters ()\`\"'<>");
     }
     window.location.search = params;
     login();
