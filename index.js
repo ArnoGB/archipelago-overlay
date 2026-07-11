@@ -173,7 +173,7 @@ $(document).ready(function () {
     }
 
     let newHoldTime = $("#holdTime").val();
-    if (newHoldTime && newHoldTime.match(/^[0-9]*$/)) {
+    if (newHoldTime && /^\d+$/.test(newHoldTime)) {
       if (newHoldTime != 10_000) {
         params.set("holdtime", newHoldTime);
         holdTime = newHoldTime;
