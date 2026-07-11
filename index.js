@@ -32,6 +32,8 @@ var AVATAR_IMG = [
 var AVATAR_IMG_DEFAULT = "./character/unknown.png";
 
 $(document).ready(function () {
+  $("#error").hide();
+
   var client = new Client();
   var transactionTemplate = $("#transactionTemplate").detach();
 
@@ -51,8 +53,6 @@ $(document).ready(function () {
     $("#error").show();
     $("#error").html(message);
   }
-
-  $("#error").hide();
 
   function getTransactionElement(
     location,
