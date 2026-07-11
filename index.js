@@ -151,7 +151,7 @@ $(document).ready(function () {
     let password = $("#passw").val();
     if (password && password.match(/^[^`"'()<>]*$/)) {
       params.set("password", password);
-    } else if (player) {
+    } else if (password) {
       error("Invalid password, avoid escape characters ()\`\"'<>");
       return;
     }
