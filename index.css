@@ -3,10 +3,10 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
     font-family: "Carter One", system-ui;
+    color: white;
 }
 
 body {
-    background-color: lightgray;
 }
 
 .h-0-75 {
@@ -45,17 +45,21 @@ body {
     font-weight: 1000;
 }
 
+.shadow {
+    filter: drop-shadow(5px 1px 4px #222222);
+}
+
 /* components */
 
 .transaction {
     height:240px;
-    filter: drop-shadow(5px 1px 4px #222222);
 }
 
 .text-item {
     position: relative;
-    font-size:1.7em;
+    font-size:1.8em;
     top:10px;
+    filter: drop-shadow(5px 1px 4px var(--shadow-color));
 }
 
 .text-player {
@@ -63,7 +67,7 @@ body {
     bottom:30px;
     color:white;
     font-weight: 1000;
-    font-size:1.6em;
+    font-size:1.2em;
     font-stretch: condensed;
 }
 
@@ -77,7 +81,7 @@ body {
 
 .text-location {
     color:white;
-    font-size:1.0em;
+    font-size:1.1em;
 }
 
 .recolor {
@@ -88,4 +92,39 @@ body {
     position: relative;
     top:-20px;
     left:20px;
+}
+
+.enter {
+    animation: 0.5s linear 0s 1 normal slide-in;
+}
+
+.exit {
+    animation: 0.5s linear 0s 1 normal slide-out;
+}
+/* animation */
+
+@keyframes slide-in {
+  from {
+    /* pousse le soleil en dessous de la zone d'affichage */
+    transform: translateY(5vh);
+    opacity: 0%;
+  }
+  to {
+    /* ramène le soleil à sa position par défaut */
+    transform: translateY(0);
+    opacity: 100%;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    /* pousse le soleil en dessous de la zone d'affichage */
+    transform: translateY(0);
+    opacity: 100%;
+  }
+  to {
+    /* ramène le soleil à sa position par défaut */
+    transform: translateY(-5vh);
+    opacity: 0%;
+  }
 }
