@@ -141,15 +141,11 @@ $(document).ready(function () {
           })
           .then(() => {
             log("Connected to the Archipelago server (with password)!");
-          })
-          .catch(console.error);
+          });
       } else {
-        client
-          .login("archipelago.gg:" + port, player)
-          .then(() => {
-            log("Connected to the Archipelago server!");
-          })
-          .catch(console.error);
+        client.login("archipelago.gg:" + port, player).then(() => {
+          log("Connected to the Archipelago server!");
+        });
       }
     } catch (err) {
       error(err.message);
