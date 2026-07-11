@@ -119,7 +119,12 @@ $(document).ready(function () {
   }
 
   $("#connect").on("click", () => {
+    $("#error").hide();
     let port = $("#port").val();
+    if (!port.match(/^[0-9]{1,5}$/)) {
+      error(`Not a valid port: '${port}'. Must be like '12345'`);
+      return;
+    }
     let player = $("#player").val();
     let password = $("#passw").val();
     params.set("port", port);
