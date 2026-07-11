@@ -20,6 +20,8 @@ $(document).ready(function(){
     let port = params.get("port");
     let player = params.get("player");
 
+    var count = 0;
+
     function log(message) {
         console.log("AP message: "+message);
     }
@@ -33,16 +35,19 @@ $(document).ready(function(){
         let img2 = avatar2.length > 0  ? avatar2[0].img : AVATAR_IMG_DEFAULT;
 
         let element = transactionTemplate.clone();
+        $(element).attr("id","message"+count);
+        count++;
         $(element).find("#location").text(location);
         $(element).find("#player1 #name").text(player1);
         $(element).find("#player1 #game").text(game1);
         $(element).find("#player1 img").attr("src",img1);
         $(element).find("#item div").text(item);
-        $(element).find("#item div").css("color", ITEM_TEXT_COLOR[itemColor]);
+        $(element).find("#item div").css("--shadow-color", ITEM_TEXT_COLOR[itemColor]);
         $(element).find(".recolor").css("--recolor", ITEM_COLOR[itemColor]);
         $(element).find("#player2 #name").text(player2);
         $(element).find("#player2 #game").text(game2);
         $(element).find("#player2 img").attr("src",img2);
+        $(element).addClass("enter");
         return element;
     }
 
@@ -55,7 +60,16 @@ $(document).ready(function(){
         let game1 = item.locationGame;
         let game2 = item.game;
         let useful = item.useful ? "useful" : item.trap ? "trap" : item.progression ? "progression" : "filler";
-        $("#transactionList").append(getTransactionElement(location, player1, game1, itemName, useful, player2, game2));
+        let element = getTransactionElement(location, player1, game1, itemName, useful, player2, game2);
+        let elementId = $(element).attr("id");
+        $("#transactionList").append(element);
+        setTimeout(() => wipeTopMessage(elementId), 10000);
+    }
+
+    function wipeTopMessage(elementId) {
+        $("#"+elementId).removeClass("enter");
+        $("#"+elementId).addClass("exit");
+        setTimeout(() => {$("#"+elementId).remove()}, 500);
     }
 
     if(port && player) {
@@ -63,7 +77,6 @@ $(document).ready(function(){
     }
 
 	$('#connect').on('click', () => {
-        
 		let port = $('#port').val();
         let player = $('#player').val();
         params.set("port",port);
@@ -72,13 +85,11 @@ $(document).ready(function(){
 		// Login to the server. Replace `archipelago.gg:XXXXX` and `Phar` with the address/url and slot name for your room.
 		// If no game is provided, client will connect in "TextOnly" mode, which is fine for this example.
         login();
-		
-
 	});
 
     function login() {
         $("#login").hide();
-        client.login("wss://archipelago.gg:"+port, player, "Outer Wilds", {items: 7 /*all*/})
+        client.login("archipelago.gg:"+port, player, "Outer Wilds", {items: 7 /*all*/})
     		.then(() => {
                 log("Connected to the Archipelago server!")
                 client.updateItemsHandling(7); //all
@@ -86,21 +97,20 @@ $(document).ready(function(){
     		.catch(console.error);
     }
 
+    let hasRunOnce = false;
     client.items.on("itemsReceived", (items) => {
-        for(let item of items) {
-            log(item);
-            processMessage(item);
+        if(!hasRunOnce) {
+            hasRunOnce = true;
+            for(let item of items) {
+                log(item);
+                processMessage(item);
+            }
         }
+        
     });
-
+	
     client.messages.on("itemSent", (text, item, nodes) => {
         log(text);
         processMessage(item);
-    })
-
-
-
-
+    });
 });
-
-//
