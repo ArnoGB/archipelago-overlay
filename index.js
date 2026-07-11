@@ -36,6 +36,7 @@ $(document).ready(function () {
 
   var client = new Client();
   var transactionTemplate = $("#transactionTemplate").detach();
+  transactionTemplate.show();
 
   let params = new URLSearchParams(document.location.search);
   let port = params.get("port");
@@ -173,8 +174,10 @@ $(document).ready(function () {
 
     let newHoldTime = $("#holdTime").val();
     if (newHoldTime && newHoldTime.match(/^[0-9]*$/)) {
-      params.set("holdtime", newHoldTime);
-      holdTime = newHoldTime;
+      if (newHoldTime != 10_000) {
+        params.set("holdtime", newHoldTime);
+        holdTime = newHoldTime;
+      }
     } else if (holdTime) {
       error("Invalid hold time, must be a number");
       return;
