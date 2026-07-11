@@ -37,7 +37,7 @@ $(document).ready(function () {
   }
 
   function error(message) {
-    console.err(message);
+    console.error(message);
     $("#error").show();
     $("#error").text(message);
   }
