@@ -41,6 +41,7 @@ $(document).ready(function () {
   let port = params.get("port");
   let player = params.get("player");
   let password = params.get("password");
+  let holdTime = params.get("holdtime") ?? 10_000;
 
   var count = 0;
 
@@ -113,7 +114,7 @@ $(document).ready(function () {
     );
     let elementId = $(element).attr("id");
     $("#transactionList").append(element);
-    setTimeout(() => wipeTopMessage(elementId), 10000);
+    setTimeout(() => wipeTopMessage(elementId), holdTime);
   }
 
   function wipeTopMessage(elementId) {
@@ -131,6 +132,10 @@ $(document).ready(function () {
     }
     if (!player.match(/^[A-Za-z0-9 _-]*$/)) {
       error(`Player must not be empty`);
+      return;
+    }
+    if (!holdTime.match(/^[0-9]*$/)) {
+      error(`Invalid hold time:${holdTime}`);
       return;
     }
     login();
@@ -165,6 +170,16 @@ $(document).ready(function () {
       error("Invalid password, avoid escape characters ()\`\"'<>");
       return;
     }
+
+    let newHoldTime = $("#holdTime").val();
+    if (newHoldTime && newHoldTime.match(/^[0-9]*$/)) {
+      params.set("holdtime", newHoldTime);
+      holdTime = newHoldTime;
+    } else if (holdTime) {
+      error("Invalid hold time, must be a number");
+      return;
+    }
+
     window.location.search = params;
     login();
   });
