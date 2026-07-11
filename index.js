@@ -135,7 +135,7 @@ $(document).ready(function () {
       error(`Player must not be empty`);
       return;
     }
-    if (!holdTime.match(/^[0-9]*$/)) {
+    if (!/^\d+$/.test(holdTime)) {
       error(`Invalid hold time:${holdTime}`);
       return;
     }
